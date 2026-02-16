@@ -60,3 +60,34 @@ Cómo iniciar la PoC
 Una vez instaladas las librerías y colocados los documentos en la carpeta docs/, inicia el servicio con:
 uvicorn main:app --reload
 
+Acceso y Visualización en el Navegador
+Una vez que ejecutas el comando uvicorn main:app --reload, el servidor se iniciará localmente.
+
+Puerto por defecto: 8000
+
+Dirección local: http://127.0.0.1:8000
+
+Interfaz de Pruebas (Swagger UI)
+FastAPI genera automáticamente una interfaz visual para probar la IA sin usar herramientas externas. Para acceder, abre tu navegador y ve a:
+
+http://127.0.0.1:8000/docs
+
+Pasos para probar en el navegador:
+
+Busca el botón azul del endpoint POST /ask.
+
+Haz clic en el botón "Try it out".
+
+En el cuadro de texto (JSON), escribe tu pregunta:
+
+
+Resolución de Problemas de Puerto
+Si al ejecutar el comando recibes un error que dice [Errno 98] Address already in use, significa que el puerto 8000 está ocupado por otra aplicación.
+
+Puedes cambiar el puerto fácilmente usando este comando:
+
+Bash
+
+uvicorn main:app --reload --port 8080
+En ese caso, deberás acceder a: http://127.0.0.1:8080/docs
+
