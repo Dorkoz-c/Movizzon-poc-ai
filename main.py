@@ -7,16 +7,18 @@ from langchain_community.document_loaders import PyPDFLoader, DirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
 from langchain.chains import RetrievalQA
+from dotenv import load_dotenv
 
-# Configuración de entorno
-os.environ["OPENAI_API_KEY"] = "TU_LLAVE_API"
+# Carga las variables desde el archivo .env
+load_dotenv()
+
+api_key = os.getenv("OPENAI_API_KEY")
 
 # Diccionario global para compartir el motor de búsqueda entre peticiones
 state = {}
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Lógica de inicio (Reemplaza a startup)
     print("Cargando documentos internos...")
     loader = DirectoryLoader('./docs', glob="./*.pdf", loader_cls=PyPDFLoader)
     documents = loader.load()
@@ -36,7 +38,6 @@ async def lifespan(app: FastAPI):
         retriever=db.as_retriever(search_kwargs={"k": 3})
     )
     yield
-    # Lógica de cierre (Reemplaza a shutdown)
     state.clear()
 
 app = FastAPI(title="PoC IA Corporativa V2", lifespan=lifespan)
